@@ -1,0 +1,866 @@
+/* 데이터 색은 파란색 한 가지만 쓴다. 밝은 화면에서는 #2a78d6, 어두운 화면에서는 #3987e5다.
+   두 색 모두 배경과의 명암 대비가 3:1 이상이라 막대가 또렷하게 보인다.
+   색이 하나뿐이라, 색을 구별하기 어려운 사람도 다른 색과 헷갈릴 일이 없다. */
+
+:root {
+  color-scheme: light;
+
+  --page:            #f9f9f7;
+  --surface-1:       #fcfcfb;
+  --text-primary:    #0b0b0b;
+  --text-secondary:  #52514e;
+  --text-muted:      #898781;
+  --grid:            #e1e0d9;
+  --baseline:        #c3c2b7;
+  --border:          rgba(11, 11, 11, 0.10);
+  --series-1:        #2a78d6;
+  --series-1-wash:   rgba(42, 120, 214, 0.10);
+  --tooltip-bg:      #0b0b0b;
+  --tooltip-ink:     #fcfcfb;
+  /* 경고를 나타내는 노란색은 경고 표시에만 쓰고, 막대 같은 데이터 색으로는 쓰지 않는다.
+     색만으로 뜻을 전하지 않도록 항상 기호와 글자를 함께 붙인다. */
+  --status-warning:  #fab219;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme='light'])) {
+    color-scheme: dark;
+
+    --page:            #0d0d0d;
+    --surface-1:       #1a1a19;
+    --text-primary:    #ffffff;
+    --text-secondary:  #c3c2b7;
+    --text-muted:      #898781;
+    --grid:            #2c2c2a;
+    --baseline:        #383835;
+    --border:          rgba(255, 255, 255, 0.10);
+    --series-1:        #3987e5;
+    --series-1-wash:   rgba(57, 135, 229, 0.14);
+    --tooltip-bg:      #fcfcfb;
+    --tooltip-ink:     #0b0b0b;
+    --status-warning:  #fab219;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --page:            #0d0d0d;
+  --surface-1:       #1a1a19;
+  --text-primary:    #ffffff;
+  --text-secondary:  #c3c2b7;
+  --text-muted:      #898781;
+  --grid:            #2c2c2a;
+  --baseline:        #383835;
+  --border:          rgba(255, 255, 255, 0.10);
+  --series-1:        #3987e5;
+  --series-1-wash:   rgba(57, 135, 229, 0.14);
+  --tooltip-bg:      #fcfcfb;
+  --tooltip-ink:     #0b0b0b;
+  --status-warning:  #fab219;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--page);
+  color: var(--text-primary);
+  font-family: system-ui, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo',
+    'Malgun Gothic', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+.page-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.page-sub {
+  margin: 4px 0 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.page-sub code {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* ── 버튼 ─────────────────────────────────────────── */
+
+.btn {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--surface-1);
+  color: var(--text-secondary);
+  border-radius: 6px;
+  padding: 5px 10px;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  color: var(--text-primary);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--series-1);
+  outline-offset: 2px;
+}
+
+.btn-row {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* ── 카드 ─────────────────────────────────────────── */
+
+.card {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px;
+  margin-top: 24px;
+}
+
+.card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 4px;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.card-sub {
+  margin: 0 0 24px;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+/* ── 스탯 타일 ────────────────────────────────────── */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.stat {
+  background: var(--surface-1);
+  padding: 14px 16px;
+}
+
+.stat-label {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.stat-value {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  /* 혼자 크게 보여 주는 숫자라 숫자마다 폭을 맞추지 않는다.
+     표처럼 위아래로 줄을 맞출 필요가 없기 때문이다. */
+}
+
+.stat-note {
+  color: var(--text-muted);
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+/* ── 막대 차트 ────────────────────────────────────── */
+
+.group-label {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--grid);
+}
+
+.group-label + .group-label,
+.rows + .group-label {
+  margin-top: 24px;
+}
+
+.group-count {
+  color: var(--text-muted);
+}
+
+.rows {
+  position: relative;
+}
+
+/* 세로 눈금선. 막대보다 눈에 덜 띄도록 아주 가는 연한 실선으로 긋고,
+   막대가 그려지는 영역과 좌우를 맞춘다. */
+.gridlines {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--label-col) + 12px);
+  right: 8px;
+  pointer-events: none;
+}
+
+.gridline {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--grid);
+}
+
+.gridline[data-zero='true'] {
+  background: var(--baseline);
+}
+
+.row {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--label-col) 1fr;
+  align-items: center;
+  gap: 12px;
+  /* 마우스나 손가락으로 누르기 쉽도록 한 줄의 높이를 24px보다 넉넉하게 잡는다. */
+  min-height: 34px;
+  border-radius: 6px;
+  cursor: default;
+}
+
+.row:hover,
+.row:focus-visible {
+  background: var(--series-1-wash);
+  outline: none;
+}
+
+.row-label {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  text-align: right;
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding-left: 8px;
+  overflow: hidden;
+}
+
+.row-label-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.badge {
+  flex-shrink: 0;
+  font-size: 10px;
+  line-height: 1.4;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0 4px;
+}
+
+.track {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: 8px;
+}
+
+.bar {
+  /* 가로 막대. 두께는 24px을 넘기지 않고, 값이 끝나는 오른쪽 끝만 둥글게 다듬는다.
+     0에서 시작하는 왼쪽 끝은 각지게 둔다. */
+  height: 14px;
+  background: var(--series-1);
+  border-radius: 0 4px 4px 0;
+  min-width: 2px;
+}
+
+.bar-value {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-secondary);
+}
+
+.axis {
+  position: relative;
+  height: 18px;
+  margin-top: 6px;
+  border-top: 1px solid var(--baseline);
+}
+
+.axis-inner {
+  position: absolute;
+  inset: 0;
+  margin-left: calc(var(--label-col) + 12px);
+  margin-right: 8px;
+}
+
+.tick {
+  position: absolute;
+  top: 4px;
+  transform: translateX(-50%);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+}
+
+/* ── 툴팁 ─────────────────────────────────────────── */
+
+.tooltip {
+  position: absolute;
+  z-index: 10;
+  left: var(--label-col);
+  top: 100%;
+  margin-top: 2px;
+  max-width: 380px;
+  background: var(--tooltip-bg);
+  color: var(--tooltip-ink);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 12px;
+  line-height: 1.45;
+  pointer-events: none;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+}
+
+.tooltip.above {
+  top: auto;
+  bottom: 100%;
+  margin-top: 0;
+  margin-bottom: 2px;
+}
+
+.tooltip-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.tooltip-row {
+  opacity: 0.82;
+}
+
+.tooltip-path {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+/* ── 표 보기 ──────────────────────────────────────── */
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--grid);
+  vertical-align: top;
+}
+
+th {
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+td.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+tfoot td {
+  font-weight: 600;
+  border-bottom: none;
+}
+
+.note {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--grid);
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.note p {
+  margin: 0 0 6px;
+}
+
+.error {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px;
+  margin-top: 24px;
+}
+
+.error code {
+  font-size: 12px;
+}
+
+/* ── 관계 위젯 ────────────────────────────────────── */
+
+.card-meta {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.sub-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 28px 0 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--grid);
+}
+
+.sub-head-count {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* 필터 버튼 줄. 여기서 고른 조건이 아래 막대와 목록에 함께 적용된다. */
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  padding-bottom: 4px;
+}
+
+.chip {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--surface-1);
+  color: var(--text-secondary);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font: inherit;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.chip:hover {
+  color: var(--text-primary);
+}
+
+.chip:focus-visible {
+  outline: 2px solid var(--series-1);
+  outline-offset: 2px;
+}
+
+.chip-on {
+  border-color: var(--series-1);
+  color: var(--text-primary);
+  background: var(--series-1-wash);
+}
+
+.chip-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.chip-check input {
+  margin: 0;
+  accent-color: var(--series-1);
+}
+
+/* 관계 유형 막대는 눌러서 고를 수 있는 버튼이다. 다만 버튼 모양 대신 다른 줄과 같은 모양으로 보이게 한다. */
+.row-btn {
+  width: 100%;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  padding: 0;
+}
+
+.row-btn:focus-visible {
+  outline: 2px solid var(--series-1);
+  outline-offset: -2px;
+}
+
+.row-dim .bar {
+  opacity: 0.32;
+}
+
+.row-dim .row-label,
+.row-dim .bar-value {
+  opacity: 0.55;
+}
+
+.rel-group {
+  margin-top: 20px;
+}
+
+.rel-group-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.type-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  color: var(--text-primary);
+  background: var(--series-1-wash);
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+
+.rel-group-count {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.rel-group-desc {
+  margin: 6px 0 10px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.rel-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--grid);
+}
+
+.rel {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--grid);
+}
+
+.rel-pair {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.rel-doc {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  color: var(--text-primary);
+  word-break: break-all;
+}
+
+.rel-arrow {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.badge-warn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-secondary);
+  border-color: var(--border);
+}
+
+/* 경고 노란색은 작은 기호에만 칠한다. 옆의 글자는 읽기 쉽도록 보통 글자색으로 둔다. */
+.warn-glyph {
+  color: var(--status-warning);
+  font-size: 9px;
+  line-height: 1;
+}
+
+.rel-note {
+  margin: 5px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.rel-note-warn {
+  color: var(--text-primary);
+}
+
+.rel-evidence {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.empty {
+  color: var(--text-muted);
+  font-size: 13px;
+  padding: 16px 0;
+}
+
+/* ── 타임라인 위젯 ─────────────────────────────────── */
+
+/* 분기마다 이벤트 수를 보여 주는 세로 막대 */
+.col-chart {
+  position: relative;
+  padding-left: 22px;
+}
+
+.col-grid {
+  position: absolute;
+  left: 22px;
+  right: 0;
+  top: 0;
+  height: 132px;
+  pointer-events: none;
+}
+
+.col-gridline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--grid);
+}
+
+.col-gridline[data-zero='true'] {
+  background: var(--baseline);
+}
+
+.col-tick {
+  position: absolute;
+  right: 100%;
+  transform: translateY(-50%);
+  padding-right: 6px;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+}
+
+.col-bands {
+  display: flex;
+  align-items: flex-start; /* 칸의 윗변을 눈금(.col-grid)에 맞춘다. 아래 라벨 높이가 달라도 막대 바닥선이 같아진다. */
+  gap: 2px; /* 이웃한 막대 사이를 2px씩 띄운다. */
+}
+
+.col-band {
+  flex: 1;
+  min-width: 0;
+  border-radius: 6px 6px 0 0;
+}
+
+.col-band:hover,
+.col-band:focus-visible {
+  background: var(--series-1-wash);
+  outline: none;
+}
+
+.col-slot {
+  height: 132px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.col-bar {
+  position: relative;
+  width: 100%;
+  max-width: 24px; /* 막대가 칸 너비를 꽉 채우지 않도록 폭을 24px까지만 둔다. */
+  background: var(--series-1);
+  /* 값이 끝나는 위쪽 모서리만 둥글게 다듬고, 바닥 쪽은 각지게 둔다. */
+  border-radius: 4px 4px 0 0;
+  min-height: 2px;
+}
+
+/* 아직 오지 않은 분기의 막대. 다른 색을 쓰지 않고 같은 파란색을 연하게 채운 뒤 테두리만 진하게 그린다. */
+.col-bar-future {
+  background: var(--series-1-wash);
+  box-shadow: inset 0 0 0 1px var(--series-1);
+}
+
+.col-value {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-bottom: 3px;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-secondary);
+}
+
+.col-label {
+  padding-top: 6px;
+  text-align: center;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.col-label-now {
+  color: var(--text-primary);
+}
+
+.col-now {
+  display: block;
+  font-size: 9px;
+  color: var(--text-secondary);
+}
+
+.chart-foot {
+  margin: 14px 0 0;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* 이벤트 목록 */
+.tl-year {
+  margin-top: 20px;
+}
+
+.tl-year-head {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-secondary);
+  font-weight: 500;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--grid);
+}
+
+.ev-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ev {
+  display: grid;
+  grid-template-columns: 124px 1fr;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--grid);
+}
+
+.ev-future .ev-date {
+  color: var(--text-muted);
+}
+
+.ev-when {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.ev-date {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.ev-time,
+.ev-loose {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.ev-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.ev-title {
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+/* 오늘 구분선 */
+.tl-now {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 0 6px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.tl-now::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--baseline);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

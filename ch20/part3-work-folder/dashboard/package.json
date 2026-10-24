@@ -1,0 +1,22 @@
+{
+  "name": "salim-archive-dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "description": "살림풍경 인수인계 아카이브 대시보드 — wiki/data/dashboard.json을 읽어 보여준다",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "npm run test:ssr && npm run test:e2e",
+    "test:ssr": "node --test tests/*.node.test.mjs",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "next": "^15.5.28",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.61.1"
+  }
+}

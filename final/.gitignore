@@ -1,0 +1,13 @@
+/node_modules
+/.next
+/out
+/build
+next-env.d.ts
+*.tsbuildinfo
+.DS_Store
+
+# API 키 같은 비밀값을 담는 .env 파일은 Git에 올리지 않는다.
+# 값 없이 이름만 적어 둔 .env.example은 예외로 올린다.
+.env
+.env.*
+!.env.example

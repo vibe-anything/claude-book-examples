@@ -1,0 +1,255 @@
+{
+  "_meta": {
+    "name": "살림풍경 MD팀 인수인계 아카이브: 대시보드 데이터",
+    "generated": "2026-10-08",
+    "generated_by": "Claude Code",
+    "source": "wiki/ 문서 10개 + 그 문서들이 근거로 건 원본. 값은 2026-10-07 전수 대조(/test)로 원본과 맞춘 것이다.",
+    "verified_by": "집계 필드(category_counts·counts_summary)는 wiki/data/_verify.py로 다시 셀 수 있다(저장소 루트에서 python3 wiki/data/_verify.py). 데이터를 고치면 그 스크립트를 반드시 한 번 돌릴 것.",
+    "schema_version": 1,
+    "purpose": "화면(대시보드) 렌더링용 파생 데이터. 카테고리별 문서 수 · 문서 간 관계 그래프 · 날짜별 이벤트.",
+    "rules": [
+      "이 파일은 위키 산출물이다. 여기 적힌 값은 근거가 아니다. 인용은 documents[].path의 원본으로 한다.",
+      "date는 파일 내부 근거(CSV 작성일 컬럼, 문서 본문 작성일, 이메일 Date 헤더, 파일명 기준일 규칙)에서만 가져왔다. 파일시스템 시각은 쓰지 않았다.",
+      "date_status: 확정 = 문서 안에 날짜가 있음 / 모름 = 문서에 없음(추측 금지) / 추정 = 근거 있는 추정이며 값이 아님.",
+      "원본 본문을 옮겨 적지 않았다. note는 대시보드 라벨용 한 줄 요약이며 전문은 원본을 열 것.",
+      "원본(raw)은 읽기 전용이다. 이 파일 생성 과정에서 원본은 수정하지 않았다."
+    ],
+    "today": "2026-10-08",
+    "known_anomaly": "today(2026-10-08)보다 뒤 날짜는 한빛리빙 자동 갱신일(추정)·대성물산 자동 연장 시한(계산값)·대성물산 계약 만료 3건이다. future=true로 표시했다.",
+    "timeline_order": "timeline은 배열 순서가 곧 표시 순서다. date 문자열로 다시 정렬하지 말 것: precision='month' 항목('2026-09' = 9월 말 이동)이 같은 달의 일 단위 항목 앞으로 튄다. 없는 날짜를 '2026-09-30' 식으로 채워 정렬을 맞추지 않았다(정리 규칙 1번: 추측한 날짜를 박으면 그게 다시 근거 행세를 한다).",
+    "excluded": [
+      "CLAUDE.md의 2026-10-05 정리 이력(단가표 이름 정리·git 도입)은 wiki/ 문서에 기록이 없어 timeline에 넣지 않았다. 근거: CLAUDE.md '이름 변경 이력: 대성물산 단가표'.",
+      "PDF/Office 파일의 내부 메타데이터(CreationDate, 생성기)는 재생성 시각이라 date 근거로 쓰지 않았다.",
+      "dashboard/(이 데이터를 보여주는 Next.js 앱)는 아카이브 문서가 아니라 코드이므로 category_counts에 넣지 않았다. total_repo_docs 51은 원본 38 + wiki 12 + CLAUDE.md 1이며 저장소의 전체 파일 수가 아니다."
+    ],
+    "relation_types": {
+      "duplicate": "내용이 같음을 실제 대조로 확인한 중복본 (인용 금지)",
+      "revision_of": "같은 문서의 이전 세대: 중복이 아니라 개정 이력",
+      "superseded_by": "값이 대체됨 (구버전 또는 폐기된 안)",
+      "value_conflict": "문서끼리 값이 다름",
+      "content_loss": "나중 판에서 앞 판의 내용이 빠짐",
+      "stale_value": "다른 문서의 옛 값을 현행값처럼 사용",
+      "same_data": "같은 데이터의 다른 표현 (중복 아님)",
+      "draft_of": "정식본의 초안",
+      "evidence_for": "그 값의 근거가 되는 문서",
+      "excerpt_of": "발췌본 ↔ 전체/요약본",
+      "scope_split": "같은 주제를 역할 분담해 나눠 담음",
+      "plan_result": "기획 ↔ 사후 성과",
+      "summarizes": "위키 문서가 정리한 원본"
+    }
+  },
+
+  "category_counts": {
+    "total_raw": 38,
+    "total_wiki": 12,
+    "total_repo_docs": 51,
+    "note": "total_repo_docs = 원본 38 + wiki/ 12 + CLAUDE.md 1. wiki/ 12 = 기존 문서 10 + dashboard.json + _verify.py(도구). 카운트 기준은 '폴더 안의 파일 수'로 고정했다. 문서/도구를 섞어 세면 다음 사람이 또 되묻게 된다.",
+    "by_category": [
+      { "id": "georaecheo",   "label": "거래처",              "path": "거래처/",              "count": 11, "role": "계약서·단가표·카탈로그", "trust": "사실 확인 1차 자료", "writable": false },
+      { "id": "boigoseo",     "label": "보고서",              "path": "보고서/",              "count": 7,  "role": "매출·프로모션·전략",     "trust": "매출데이터 CSV가 원자료, html은 BI 내보내기", "writable": false },
+      { "id": "hoeuirok",     "label": "회의록",              "path": "회의록/",              "count": 5,  "role": "합의의 근거",            "trust": "액션 아이템 체크박스로 미처리 추적 가능", "writable": false },
+      { "id": "maenyueol",    "label": "매뉴얼",              "path": "매뉴얼/",              "count": 4,  "role": "CS·반품 프로세스",       "trust": "버전 난립 구간(정리 완료)", "writable": false },
+      { "id": "memo",         "label": "메모",                "path": "메모/",                "count": 4,  "role": "개인 메모·이메일",       "trust": "정식 문서 아님. 단 .eml은 공급사 서면 확인이라 근거력 높음", "writable": false },
+      { "id": "jaego",        "label": "재고관리",            "path": "재고관리/",            "count": 1,  "role": "동기화 결과 스냅샷",     "trust": "파일명 끝 8자리가 기준일", "writable": false },
+      { "id": "mibunryu",     "label": "미분류",              "path": "미분류/",              "count": 2,  "role": "방치된 파일",            "trust": "기본적으로 무시. 폴더명이 곧 상태 표시", "writable": false },
+      { "id": "y2024",        "label": "2024년 자료(안씀)",   "path": "2024년 자료(안씀)/",   "count": 1,  "role": "방치된 파일",            "trust": "폴더명이 곧 상태 표시. 단 종료 업체 기록은 여기에만 있음", "writable": false },
+      { "id": "bogwan",       "label": "_보관",               "path": "_보관/",               "count": 3,  "role": "원래 폴더 아래 둔 중복본 보관소", "trust": "인용 금지: 기준본과 내용 동일 확인된 것만", "writable": false },
+      { "id": "wiki",         "label": "wiki",                "path": "wiki/",                "count": 12, "role": "요약·색인·대시보드 데이터", "trust": "유일하게 쓰기 가능. 여기 값은 근거가 아님", "writable": true }
+    ],
+    "by_format": [
+      { "format": "docx", "count": 9 },
+      { "format": "md",   "count": 8 },
+      { "format": "csv",  "count": 8 },
+      { "format": "txt",  "count": 4 },
+      { "format": "pdf",  "count": 3 },
+      { "format": "pptx", "count": 2 },
+      { "format": "json", "count": 1 },
+      { "format": "html", "count": 1 },
+      { "format": "eml",  "count": 1 },
+      { "format": "xlsx", "count": 1 }
+    ],
+    "by_format_note": "합 38 = 원본 전체(위키·CLAUDE.md 제외). Office 문서(docx 9 + pptx 2 + xlsx 1) 12개 중 11개가 위키에 반영됨: 나머지 1개는 매뉴얼/_보관/의 사본. Read 툴로 열리지 않아 markitdown 변환이 필요한 형식이 이 12개다.",
+    "by_date_status": {
+      "확정": 24,
+      "모름": 12,
+      "추정": 2,
+      "note": "합 38 = 원본 전체. 추정 2건 = 카톡 캡처 PDF, 개인 메모. 모름 12건은 문서 안에 날짜가 없어서이지 확인을 안 한 것이 아니다. 2026-10-06에 Office 11건 변환과 PDF 3종 판독까지 마쳤다."
+    }
+  },
+
+  "documents": [
+    { "id": "daesung-contract",       "path": "거래처/대성물산/계약서_2025.md",                     "category": "georaecheo", "format": "md",   "date": null,         "date_status": "모름", "status": "current",    "entity": "대성물산",   "note": "MD팀이 옮겨 적은 요약본. 계약기간 2025-03-01~2027-02-28. 조항 해석은 총무팀 원본 우선" },
+    { "id": "daesung-contract-scan",  "path": "거래처/대성물산/대성물산_계약서_스캔본.pdf",         "category": "georaecheo", "format": "pdf",  "date": null,         "date_status": "모름", "status": "excerpt",    "entity": "대성물산",   "note": "제1·9·14조만 담긴 발췌본. 서명란에 날짜 없음" },
+    { "id": "daesung-price-2026-01",  "path": "거래처/대성물산/단가표/2026-01-10.csv",              "category": "georaecheo", "format": "csv",  "date": "2026-01-10", "date_status": "확정", "status": "superseded", "entity": "대성물산",   "note": "TB500 8,900 / CT300 12,000 / SP100 3,200, 리드타임 14일" },
+    { "id": "daesung-price-2026-04",  "path": "거래처/대성물산/단가표/2026-04-03.csv",              "category": "georaecheo", "format": "csv",  "date": "2026-04-03", "date_status": "확정", "status": "discarded",  "entity": "대성물산",   "note": "4월 구두 임시안 9,200: 폐기됨. 파일에는 폐기 표시가 없다(비고가 '임시 협상안(구두 협의 단계)'이라 진행 중처럼 읽힘)", "warning": true },
+    { "id": "daesung-price-2026-06",  "path": "거래처/대성물산/단가표/2026-06-15.csv",              "category": "georaecheo", "format": "csv",  "date": "2026-06-15", "date_status": "확정", "status": "current",    "entity": "대성물산",   "note": "현행. TB500 9,500 / CT300 13,200 / SP100 3,500, 리드타임 21일, 2026-07-01 발주분부터" },
+    { "id": "daesung-catalog",        "path": "거래처/대성물산/제품카탈로그.json",                  "category": "georaecheo", "format": "json", "date": "2026-05-02", "date_status": "확정", "status": "current",    "entity": "대성물산",   "note": "PMS 내보내기(exportedAt 기준). listPrice는 판매가이지 공급 단가가 아님" },
+    { "id": "hanbit-contract",        "path": "거래처/한빛리빙/계약서_2024.md",                     "category": "georaecheo", "format": "md",   "date": null,         "date_status": "모름", "status": "current",    "entity": "한빛리빙",   "note": "요약본. 2024-11-01 시작, 1년 단위 자동 갱신(만료일 없음). 해지 통보 시한 미상" },
+    { "id": "hanbit-price",           "path": "거래처/한빛리빙/단가표.csv",                         "category": "georaecheo", "format": "csv",  "date": "2026-02-20", "date_status": "확정", "status": "current",    "entity": "한빛리빙",   "note": "유일본. 6,500 / 9,800 / 15,000, 물류비 반영 1회 조정" },
+    { "id": "chorok-intro",           "path": "거래처/초록별상사/신규거래처_소개자료.docx",         "category": "georaecheo", "format": "docx", "date": null,         "date_status": "모름", "status": "current",    "entity": "초록별상사", "note": "사내 검토 문서. 계약 전 스냅샷" },
+    { "id": "chorok-proposal",        "path": "거래처/초록별상사/초록별상사_제안서.pptx",           "category": "georaecheo", "format": "pptx", "date": null,         "date_status": "모름", "status": "current",    "entity": "초록별상사", "note": "입점 제안 발표자료 3슬라이드. 2026-10-06에 거래처/ 최상위에서 이 폴더로 이동" },
+    { "id": "greentable-pdf",         "path": "거래처/새 거래처 후보/스캔0002.pdf",                 "category": "georaecheo", "format": "pdf",  "date": null,         "date_status": "모름", "status": "idle",       "entity": "그린테이블", "note": "회사 소개자료 1면. 파일명과 달리 스캔본이 아닌 텍스트 PDF. 접촉 이력 없음" },
+
+    { "id": "sales-h1-0708",          "path": "보고서/2026_상반기_매출보고.docx",                   "category": "boigoseo",   "format": "docx", "date": "2026-07-08", "date_status": "확정", "status": "superseded", "entity": null,         "note": "먼저 나온 판. ## 특이사항 절(단가 인상 → 원가율 상승 경고)은 이 판에만 있다", "warning": true },
+    { "id": "sales-h1-0709",          "path": "보고서/2026_상반기_매출보고_최종.docx",              "category": "boigoseo",   "format": "docx", "date": "2026-07-09", "date_status": "확정", "status": "current",    "entity": null,         "note": "최신. 수치는 동일하나 특이사항·CSV 출처 안내가 빠짐" },
+    { "id": "promo-plan",             "path": "보고서/2026_프로모션_기획안.pptx",                   "category": "boigoseo",   "format": "pptx", "date": null,         "date_status": "모름", "status": "current",    "entity": null,         "note": "추석특가전 기획 3슬라이드. 할인율만 적어 단가 인상과 무관" },
+    { "id": "sales-q2-csv",           "path": "보고서/매출데이터_2026Q2.csv",                       "category": "boigoseo",   "format": "csv",  "date": null,         "date_status": "모름", "status": "current",    "entity": null,         "note": "2026년 4~6월 품번별 매출 원자료. 주방용품·생활수납 2개 카테고리만" },
+    { "id": "sales-q2-bi",            "path": "보고서/카테고리별_매출현황_2026Q2.html",             "category": "boigoseo",   "format": "html", "date": "2026-07-02", "date_status": "확정", "status": "current",    "entity": null,         "note": "BI 자동 리포트(09:41 생성). 카테고리 단위 집계라 공급사명이 없다" },
+    { "id": "promo-result",           "path": "보고서/프로모션_성과분석_추석특가.docx",             "category": "boigoseo",   "format": "docx", "date": "2026-09-20", "date_status": "확정", "status": "current",    "entity": null,         "note": "1,240세트·약 1.8억·+34%. 마진을 옛 공급단가 8,900원으로 계산(문서 스스로 재계산 필요라고 적음)", "warning": true },
+    { "id": "strategy-h2",            "path": "보고서/하반기_영업전략(초안).docx",                  "category": "boigoseo",   "format": "docx", "date": "2026-07-10", "date_status": "확정", "status": "draft",      "entity": null,         "note": "목표 4건. 초안·팀장 검토 전이라고 본문이 밝힘" },
+
+    { "id": "mtg-2026-01-15",         "path": "회의록/2026-01-15_대성물산_거래처미팅.md",           "category": "hoeuirok",   "format": "md",   "date": "2026-01-15", "date_status": "확정", "status": "current",    "entity": "대성물산",   "note": "상반기 단가 동결·리드타임 14일 합의. 텀블러 프로모션 기획안 액션 미착수" },
+    { "id": "mtg-2026-03-20",         "path": "회의록/2026-03-20_MD회의_상반기전략.md",             "category": "hoeuirok",   "format": "md",   "date": "2026-03-20", "date_status": "확정", "status": "current",    "entity": null,         "note": "원본. 원자재 시세 상승 공유, 친환경 소싱 필요성 제기. 액션 2건 미처리" },
+    { "id": "mtg-2026-03-20-edit",    "path": "회의록/회의록(수정).md",                             "category": "hoeuirok",   "format": "md",   "date": "2026-03-20", "date_status": "확정", "status": "partial",    "entity": null,         "note": "위 회의의 오타 수정본. 회의일은 확정이나 수정일은 미상. 원본보다 짧다", "warning": true },
+    { "id": "mtg-2026-06-10",         "path": "회의록/2026-06-10_긴급_단가조정건.md",               "category": "hoeuirok",   "format": "md",   "date": "2026-06-10", "date_status": "확정", "status": "current",    "entity": "대성물산",   "note": "현행 단가의 근거. 액션 아이템 3건 중 2건 미처리 체크박스" },
+    { "id": "mtg-2026-09-05",         "path": "회의록/2026-09-05_초록별상사_신규거래처미팅.md",     "category": "hoeuirok",   "format": "md",   "date": "2026-09-05", "date_status": "확정", "status": "current",    "entity": "초록별상사", "note": "샘플 3종 요청 후 회신 대기. 이후 진행을 아는 담당자 없음" },
+
+    { "id": "cs-manual-2024",         "path": "매뉴얼/CS응대매뉴얼/2024-08-01.docx",                "category": "maenyueol",  "format": "docx", "date": "2024-08-01", "date_status": "확정", "status": "superseded", "entity": null,         "note": "최초 세대. 단순변심 7일" },
+    { "id": "cs-manual-2025",         "path": "매뉴얼/CS응대매뉴얼/2025-05-15.docx",                "category": "maenyueol",  "format": "docx", "date": "2025-05-15", "date_status": "확정", "status": "superseded", "entity": null,         "note": "2세대. 7일 → 10일 연장, CS 시트 기록 신설" },
+    { "id": "cs-manual-2026",         "path": "매뉴얼/CS응대매뉴얼/2026-07-02.docx",                "category": "maenyueol",  "format": "docx", "date": "2026-07-02", "date_status": "확정", "status": "current",    "entity": null,         "note": "현행. 10일 유지 + 위생용품 반품 불가 신설, 카카오톡 채널 정식 도입" },
+    { "id": "return-process",         "path": "매뉴얼/반품교환프로세스.md",                         "category": "maenyueol",  "format": "md",   "date": "2025-06-01", "date_status": "확정", "status": "current",    "entity": null,         "note": "절차의 기준 문서. 단순변심 7일은 작성 시점에 이미 구값: 인용 금지", "warning": true },
+
+    { "id": "email-daesung",          "path": "메모/이메일_대성물산_단가협상.eml",                  "category": "memo",       "format": "eml",  "date": "2026-06-10", "date_status": "확정", "status": "current",    "entity": "대성물산",   "note": "공급사 서면 확인(Date 헤더 18:22). 현행 단가의 근거력이 가장 높은 자료" },
+    { "id": "memo-daesung",           "path": "메모/단가협상_메모_대성물산.txt",                    "category": "memo",       "format": "txt",  "date": null,         "date_status": "추정", "status": "current",    "entity": "대성물산",   "note": "개인 메모. 2026-06-10 이후(추정, 근거: 본문 '6/10 통화')" },
+    { "id": "memo-handover",          "path": "메모/인수인계_해야할것.txt",                         "category": "memo",       "format": "txt",  "date": null,         "date_status": "모름", "status": "current",    "entity": null,         "note": "인수인계 정식 메모. 미해결 5건 목록" },
+    { "id": "memo-misc",              "path": "메모/새 텍스트 문서.txt",                            "category": "memo",       "format": "txt",  "date": null,         "date_status": "모름", "status": "idle",       "entity": null,         "note": "업무 무관(회의실 예약·토너 주문 등)" },
+
+    { "id": "inventory-20260630",     "path": "재고관리/재고동기화_결과_20260630.csv",              "category": "jaego",      "format": "csv",  "date": "2026-06-30", "date_status": "확정", "status": "current",    "entity": null,         "note": "기준일은 파일명 끝 8자리 규칙. DSM-SP100만 -32개 불일치, 원인 미상", "warning": true },
+
+    { "id": "memo-handover-draft",    "path": "미분류/김도윤_인수인계전_메모.txt",                  "category": "mibunryu",   "format": "txt",  "date": null,         "date_status": "모름", "status": "draft",      "entity": null,         "note": "정식본의 초안. 지우는 걸 깜빡했다고 본문에 적혀 있음" },
+    { "id": "kakao-capture",          "path": "미분류/스크린샷_카톡대화_대성물산.pdf",              "category": "mibunryu",   "format": "pdf",  "date": null,         "date_status": "추정", "status": "current",    "entity": "대성물산",   "note": "박신영 과장 ↔ 김도윤. 대화에 날짜가 없고 시각만(오후 4:22~4:25). 2026-06-10은 추정" },
+
+    { "id": "old-vendor-list",        "path": "2024년 자료(안씀)/예전_거래처_리스트.xlsx",          "category": "y2024",      "format": "xlsx", "date": null,         "date_status": "모름", "status": "idle",       "entity": null,         "note": "제목이 '거래처 리스트(2024)'. 종료 업체 2곳(미래상사·뉴스타패키징) 기록은 이 파일에만 있음" },
+
+    { "id": "dup-cs-manual",          "path": "매뉴얼/_보관/CS응대매뉴얼_진짜최종_v2 (1).docx", "category": "bogwan",     "format": "docx", "date": "2026-07-02", "date_status": "확정", "status": "duplicate",  "entity": null,         "note": "현행 매뉴얼과 바이트 동일. 인용 금지" },
+    { "id": "dup-price-a",            "path": "거래처/대성물산/_보관/단가표_최종 - 복사본.csv",      "category": "bogwan",     "format": "csv",  "date": "2026-06-15", "date_status": "확정", "status": "duplicate",  "entity": "대성물산",   "note": "현행 단가표와 내용 동일. 인용 금지" },
+    { "id": "dup-price-b",            "path": "거래처/대성물산/_보관/단가표_최종.csv",        "category": "bogwan",     "format": "csv",  "date": "2026-06-15", "date_status": "확정", "status": "duplicate",  "entity": "대성물산",   "note": "원래 회의록/에 잘못 놓여 있던 것. 인용 금지" },
+
+    { "id": "wiki-readme",            "path": "wiki/README.md",                                     "category": "wiki",       "format": "md",   "date": "2026-10-08", "date_status": "확정", "status": "current",    "entity": null,         "note": "위키 입구: 어디서부터 볼지, 정리 규칙 요약" },
+    { "id": "wiki-index",             "path": "wiki/index.md",                                      "category": "wiki",       "format": "md",   "date": "2026-10-08", "date_status": "확정", "status": "current",    "entity": null,         "note": "전체 문서 색인" },
+    { "id": "wiki-daesung",           "path": "wiki/거래처/대성물산.md",                            "category": "wiki",       "format": "md",   "date": "2026-10-07", "date_status": "확정", "status": "current",    "entity": "대성물산",   "note": "계약·단가 이력·매출·재고·미해결" },
+    { "id": "wiki-hanbit",            "path": "wiki/거래처/한빛리빙.md",                            "category": "wiki",       "format": "md",   "date": "2026-10-07", "date_status": "확정", "status": "current",    "entity": "한빛리빙",   "note": "단가 1회 조정, 재고·불일치 없음" },
+    { "id": "wiki-chorok",            "path": "wiki/거래처/초록별상사.md",                          "category": "wiki",       "format": "md",   "date": "2026-10-07", "date_status": "확정", "status": "current",    "entity": "초록별상사", "note": "신규 후보. 소개자료 ↔ 제안서는 중복 아님" },
+    { "id": "wiki-greentable",        "path": "wiki/거래처/그린테이블.md",                          "category": "wiki",       "format": "md",   "date": "2026-10-07", "date_status": "확정", "status": "current",    "entity": "그린테이블", "note": "신규 후보. 초록별상사와 별개 업체, 접촉 이력 없음" },
+    { "id": "wiki-old-vendors",       "path": "wiki/거래처/과거거래처_2024.md",                     "category": "wiki",       "format": "md",   "date": "2026-10-07", "date_status": "확정", "status": "current",    "entity": null,         "note": "종료 업체 기록. 회사 단위가 아닌 문서라 예외적으로 한 파일" },
+    { "id": "wiki-sales-h1",          "path": "wiki/보고서/2026_상반기_매출보고.md",                "category": "wiki",       "format": "md",   "date": "2026-10-07", "date_status": "확정", "status": "current",    "entity": null,         "note": "매출보고 2종 대조" },
+    { "id": "wiki-promo",             "path": "wiki/보고서/프로모션_추석특가.md",                   "category": "wiki",       "format": "md",   "date": "2026-10-07", "date_status": "확정", "status": "current",    "entity": null,         "note": "기획 ↔ 성과, 옛 단가 사용 건" },
+    { "id": "wiki-strategy",          "path": "wiki/보고서/2026_하반기_영업전략.md",                "category": "wiki",       "format": "md",   "date": "2026-10-07", "date_status": "확정", "status": "current",    "entity": null,         "note": "하반기 목표 4건 진행 상태 대조" },
+    { "id": "wiki-dashboard",         "path": "wiki/data/dashboard.json",                           "category": "wiki",       "format": "json", "date": "2026-10-08", "date_status": "확정", "status": "current",    "entity": null,         "note": "이 파일" },
+    { "id": "wiki-verify",            "path": "wiki/data/_verify.py",                               "category": "wiki",       "format": "py",   "date": "2026-10-08", "date_status": "확정", "status": "current",    "entity": null,         "note": "dashboard.json 집계 필드 재검산 스크립트(문서가 아니라 도구)" }
+  ],
+
+  "relations": [
+    { "from": "daesung-price-2026-01", "to": "daesung-price-2026-06", "type": "superseded_by", "note": "8,900 → 9,500. 구버전이므로 개정 이력으로 원래 폴더에 남긴다", "evidence": ["mtg-2026-06-10", "email-daesung"] },
+    { "from": "daesung-price-2026-04", "to": "daesung-price-2026-06", "type": "superseded_by", "note": "4월 구두 임시안 9,200 → 폐기. 정식 계약에 반영된 적 없음", "evidence": ["mtg-2026-06-10", "email-daesung", "memo-daesung"], "warning": "원본 파일에 폐기 표시가 없다. 폐기 사실은 wiki/거래처/대성물산.md에만 기록" },
+    { "from": "mtg-2026-06-10",        "to": "daesung-price-2026-06", "type": "evidence_for", "note": "정식 합의 기록" },
+    { "from": "email-daesung",         "to": "daesung-price-2026-06", "type": "evidence_for", "note": "공급사 서면 확인: 근거력 최상" },
+    { "from": "kakao-capture",         "to": "daesung-price-2026-06", "type": "evidence_for", "note": "세 번째 채널. 가격·적용일만 확인, 리드타임 언급 없음" },
+    { "from": "memo-daesung",          "to": "daesung-price-2026-06", "type": "evidence_for", "note": "개인 메모: 정식 문서 아님" },
+    { "from": "mtg-2026-01-15",        "to": "daesung-price-2026-01", "type": "evidence_for", "note": "동결·리드타임 14일 합의" },
+    { "from": "dup-price-a",           "to": "daesung-price-2026-06", "type": "duplicate", "note": "내용 대조 완료" },
+    { "from": "dup-price-b",           "to": "daesung-price-2026-06", "type": "duplicate", "note": "내용 대조 완료. 원래 회의록/에 있던 것" },
+    { "from": "daesung-contract-scan", "to": "daesung-contract",      "type": "excerpt_of", "note": "제1·9·14조만. 확인된 3개 조항은 요약본과 일치하나 나머지가 없어 총무팀 원본 우선 규칙은 유지" },
+    { "from": "daesung-contract",      "to": "daesung-price-2026-06", "type": "evidence_for", "note": "제9조 원자재 시세 연동 조항이 잦은 단가 변동의 원인" },
+
+    { "from": "cs-manual-2024",        "to": "cs-manual-2025",        "type": "revision_of", "note": "단순변심 7일 → 10일" },
+    { "from": "cs-manual-2025",        "to": "cs-manual-2026",        "type": "revision_of", "note": "10일 유지 + 위생용품 반품 불가 신설" },
+    { "from": "dup-cs-manual",         "to": "cs-manual-2026",        "type": "duplicate", "note": "sha256 일치(바이트 동일)" },
+    { "from": "return-process",        "to": "cs-manual-2026",        "type": "value_conflict", "note": "단순변심 7일 ↔ 10일. 값은 10일로 확정: return-process(2025-06-01)의 7일은 2025-05-15 개정 뒤에 쓰인 처음부터 틀린 값", "resolved": true, "resolution_evidence": ["cs-manual-2025", "cs-manual-2026"] },
+    { "from": "return-process",        "to": "cs-manual-2026",        "type": "scope_split", "note": "절차는 return-process, 정책 기준(기간·예외 품목)은 cs-manual-2026. 매뉴얼 본문이 직접 밝힌 역할 분담" },
+
+    { "from": "sales-h1-0708",         "to": "sales-h1-0709",         "type": "content_loss", "note": "'표현만 다듬음'이라고 적었으나 ## 특이사항 절과 CSV 출처 안내가 통째로 빠짐. 인용은 두 판을 함께", "warning": true },
+    { "from": "mtg-2026-03-20",        "to": "mtg-2026-03-20-edit",   "type": "content_loss", "note": "'8월 리빙페어 미팅으로 이어짐' 문구와 액션 아이템 2건 누락. 병합은 반드시 원본 기준", "warning": true },
+    { "from": "sales-q2-csv",          "to": "sales-q2-bi",           "type": "same_data", "note": "원자료 ↔ BI 내보내기. 품번별 합계가 카테고리 합계와 일치함을 확인: 중복 아님" },
+    { "from": "memo-handover-draft",   "to": "memo-handover",         "type": "draft_of", "note": "본문에 초안이라고 적혀 있음" },
+    { "from": "promo-plan",            "to": "promo-result",          "type": "plan_result", "note": "같은 프로모션의 앞뒤 문서. 기간·할인율 12%가 두 문서 일치" },
+    { "from": "promo-result",          "to": "daesung-price-2026-06", "type": "stale_value", "note": "마진을 옛 공급단가 8,900원으로 계산(현행 9,500원). 문서 스스로 재계산 필요라고 적음. 옛 값을 현행값처럼 계산에 쓴 유일한 문서", "warning": true },
+    { "from": "sales-h1-0708",         "to": "strategy-h2",           "type": "evidence_for", "note": "특이사항의 '판매가 조정 재논의'가 목표 2 '8월 중 결정'으로 구체화됨" },
+    { "from": "sales-h1-0709",         "to": "strategy-h2",           "type": "evidence_for", "note": "목표 1의 '상반기 48%' 출처" },
+    { "from": "cs-manual-2026",        "to": "chorok-intro",          "type": "evidence_for", "note": "위생용품 반품 불가 조항을 '초록별상사 세제 라인 입점을 앞두고' 신설: 7월 문서가 입점을 기정사실처럼 다룸" },
+    { "from": "chorok-intro",          "to": "chorok-proposal",       "type": "same_data", "note": "사내 검토 문서 ↔ 입점 제안 발표자료. 성격이 다른 별개 문서: 중복 아님" },
+    { "from": "old-vendor-list",       "to": "daesung-contract",      "type": "evidence_for", "note": "2024년부터 이어진 거래처임을 보여줌" },
+    { "from": "old-vendor-list",       "to": "hanbit-contract",       "type": "evidence_for", "note": "동일" },
+
+    { "from": "wiki-daesung",     "to": "daesung-price-2026-06", "type": "summarizes", "note": "대성물산 원본 15건을 정리" },
+    { "from": "wiki-hanbit",      "to": "hanbit-price",          "type": "summarizes", "note": "한빛리빙 원본 6건을 정리" },
+    { "from": "wiki-chorok",      "to": "chorok-intro",          "type": "summarizes" },
+    { "from": "wiki-greentable",  "to": "greentable-pdf",        "type": "summarizes", "note": "근거가 이 PDF 1건뿐" },
+    { "from": "wiki-old-vendors", "to": "old-vendor-list",       "type": "summarizes" },
+    { "from": "wiki-sales-h1",    "to": "sales-h1-0709",         "type": "summarizes", "note": "2종 대조" },
+    { "from": "wiki-promo",       "to": "promo-result",          "type": "summarizes" },
+    { "from": "wiki-strategy",    "to": "strategy-h2",           "type": "summarizes" }
+  ],
+
+  "timeline": [
+    { "date": "2024-08-01", "precision": "day",   "type": "document", "title": "CS응대매뉴얼 최초 작성 (단순변심 7일)",                    "docs": ["cs-manual-2024"] },
+    { "date": "2024-11-01", "precision": "day",   "type": "contract", "title": "한빛리빙 계약 시작 (1년 단위 자동 갱신)",                   "docs": ["hanbit-contract"] },
+    { "date": "2025-03-01", "precision": "day",   "type": "contract", "title": "대성물산 계약 시작 (2년, ~2027-02-28)",                    "docs": ["daesung-contract", "daesung-contract-scan"] },
+    { "date": "2025-05-15", "precision": "day",   "type": "policy",   "title": "반품 정책 개정: 단순변심 7일 → 10일",                     "docs": ["cs-manual-2025"] },
+    { "date": "2025-06-01", "precision": "day",   "type": "document", "title": "반품교환프로세스.md 작성: 개정 후인데 7일을 적음",         "docs": ["return-process"], "warning": true },
+    { "date": "2026-01-10", "precision": "day",   "type": "price",    "title": "대성물산 단가표 작성: 텀블러 8,900원 (2025년 계약가 유지)", "docs": ["daesung-price-2026-01"] },
+    { "date": "2026-01-15", "precision": "day",   "type": "meeting",  "title": "대성물산 거래처 미팅: 상반기 단가 동결, 리드타임 14일 합의", "docs": ["mtg-2026-01-15"] },
+    { "date": "2026-02-20", "precision": "day",   "type": "price",    "title": "한빛리빙 단가 1회 조정 (물류비 반영)",                      "docs": ["hanbit-price"] },
+    { "date": "2026-03-20", "precision": "day",   "type": "meeting",  "title": "MD팀 상반기 전략 회의: 원자재 시세 상승 공유, 친환경 소싱 제기", "docs": ["mtg-2026-03-20", "mtg-2026-03-20-edit"] },
+    { "date": "2026-04-03", "precision": "day",   "type": "price",    "title": "4월 구두 임시안 작성: 텀블러 9,200원 (이후 폐기)",         "docs": ["daesung-price-2026-04"], "warning": true },
+    { "date": "2026-05-02", "precision": "day",   "type": "document", "title": "PMS 제품카탈로그 내보내기 (판매가 기준)",                   "docs": ["daesung-catalog"] },
+    { "date": "2026-06-10", "precision": "day",   "type": "price",    "title": "긴급 단가조정 회의: 정식 합의 9,500 / 13,200 / 3,500, 리드타임 21일", "docs": ["mtg-2026-06-10"], "time": "16:00" },
+    { "date": "2026-06-10", "precision": "day",   "type": "price",    "title": "공급사 서면 확인 이메일: 4월 임시안 대체를 명시",           "docs": ["email-daesung"], "time": "18:22" },
+    { "date": "2026-06-10", "precision": "day",   "type": "price",    "title": "카톡으로 단가·적용일 재확인 (날짜 추정)",                   "docs": ["kakao-capture"], "time": "16:22~16:25", "date_status": "추정", "note": "대화에 날짜 표기가 없다. 2026-06-10은 정황 근거에 의한 추정" },
+    { "date": "2026-06-15", "precision": "day",   "type": "price",    "title": "현행 단가표 작성·공유",                                     "docs": ["daesung-price-2026-06"] },
+    { "date": "2026-06-30", "precision": "day",   "type": "inventory","title": "재고 동기화 스냅샷: DSM-SP100만 -32개 불일치",             "docs": ["inventory-20260630"], "warning": true },
+    { "date": "2026-07-01", "precision": "day",   "type": "price",    "title": "신단가 적용 시작 (발주 기준)",                              "docs": ["mtg-2026-06-10", "email-daesung"] },
+    { "date": "2026-07-02", "precision": "day",   "type": "policy",   "title": "CS응대매뉴얼 재개정: 위생용품 반품 불가 신설, 카카오톡 정식 도입", "docs": ["cs-manual-2026"] },
+    { "date": "2026-07-02", "precision": "day",   "type": "document", "title": "BI 카테고리별 매출현황 2026Q2 자동 생성",                   "docs": ["sales-q2-bi"], "time": "09:41" },
+    { "date": "2026-07-08", "precision": "day",   "type": "report",   "title": "상반기 매출보고 작성 (특이사항 절 포함)",                   "docs": ["sales-h1-0708"] },
+    { "date": "2026-07-09", "precision": "day",   "type": "report",   "title": "상반기 매출보고 최종본: 특이사항 절이 빠짐",               "docs": ["sales-h1-0709"], "warning": true },
+    { "date": "2026-07-10", "precision": "day",   "type": "report",   "title": "하반기 영업전략 초안: 목표 4건, 판매가 재조정 '8월 중 결정'", "docs": ["strategy-h2"] },
+    { "date": "2026-08",    "precision": "month", "type": "meeting",  "title": "서울 리빙페어: 초록별상사 부스 미팅(첫 접촉)",             "docs": ["chorok-intro", "chorok-proposal"], "note": "그린테이블 자료도 '2026 서울 리빙페어' 수령분이나 PDF가 월을 적지 않아 같은 행사인지는 추정" },
+    { "date": "2026-09-05", "precision": "day",   "type": "meeting",  "title": "초록별상사 신규거래처 미팅: 샘플 3종 요청 후 회신 대기",   "docs": ["mtg-2026-09-05"] },
+    { "date": "2026-09-09", "precision": "range", "end": "2026-09-15","type": "promotion","title": "추석특가전 진행 (세트 12% 할인)",         "docs": ["promo-plan", "promo-result"] },
+    { "date": "2026-09-20", "precision": "day",   "type": "report",   "title": "추석특가전 성과분석: 마진을 옛 단가 8,900원으로 계산",     "docs": ["promo-result"], "warning": true },
+    { "date": "2026-09",    "precision": "month", "type": "org",      "title": "김도윤 대리 타 부서 이동 (9월 말)",                         "docs": ["mtg-2026-09-05"] },
+    { "date": "2026-10-06", "precision": "day",   "type": "wiki",     "title": "저장소 전수 조사: Office 11건 변환, PDF 3종 판독, 위키 정리", "docs": ["wiki-index"] },
+    { "date": "2026-10-08", "precision": "day",   "type": "deadline", "title": "판매가 재조정 결정 기한(8월 중): 결정 기록 없음",           "docs": ["strategy-h2"], "warning": true, "open": true },
+    { "date": "2026-11-01", "precision": "day",   "type": "deadline", "title": "한빛리빙 자동 갱신일(추정)",                                "docs": ["hanbit-contract"], "date_status": "추정", "future": true, "note": "추정, 근거: 2024-11-01 시작 + 1년 단위. 문서에 적힌 값이 아니다" },
+    { "date": "2026-11-28", "precision": "day",   "type": "deadline", "title": "대성물산 자동 연장 결정 시한(계산값)",                       "docs": ["daesung-contract"], "date_status": "추정", "future": true, "note": "만료 3개월 전 역산. '3개월 전'의 기산 방식이 요약본·발췌본 어디에도 없어 총무팀 원본 확인 필요" },
+    { "date": "2027-02-28", "precision": "day",   "type": "contract", "title": "대성물산 계약 만료",                                        "docs": ["daesung-contract", "daesung-contract-scan"], "future": true }
+  ],
+
+  "open_items": [
+    { "id": "sp100-gap",       "title": "DSM-SP100 재고 -32개 원인",            "status": "미확인", "since": "2026-06-30", "docs": ["inventory-20260630"], "note": "반품 처리 지연 관련 가능성만 기재. 가능성을 원인으로 승격하지 않는다" },
+    { "id": "price-decision",  "title": "판매가 재조정 결정 여부",              "status": "미확인", "since": "2026-07-10", "docs": ["strategy-h2"], "note": "기한이 2026-08. 결정 기록이 없다", "overdue": true },
+    { "id": "margin-recalc",   "title": "추석특가전 마진율 재계산",             "status": "미확인", "since": "2026-09-20", "docs": ["promo-result"], "note": "원 계산식이 문서에 없어 위키에서 재계산하지 않았다. 원 담당자 몫" },
+    { "id": "chorok-sample",   "title": "초록별상사 샘플 3종 회신 여부",        "status": "미확인", "since": "2026-09-05", "docs": ["mtg-2026-09-05"], "note": "이후 진행을 아는 담당자가 없다" },
+    { "id": "greentable-contact", "title": "그린테이블 후속 연락 여부",         "status": "미확인", "since": null, "docs": ["greentable-pdf"], "note": "저장소 어디에도 접촉 기록이 없다. 김도윤 대리 본인만 안다" },
+    { "id": "contract-clauses","title": "대성물산 계약서 전체 조항",            "status": "미확인", "since": null, "docs": ["daesung-contract-scan"], "note": "스캔본이 제1·9·14조 발췌뿐. 자동 연장 기산 방식이 여기 걸려 있다" },
+    { "id": "tumbler-promo",   "title": "텀블러 프로모션 기획안 미착수",        "status": "미처리", "since": "2026-01-15", "docs": ["mtg-2026-01-15", "memo-handover"], "note": "회의록 액션 아이템. 인수인계 메모에도 '손도 못 댐'" },
+    { "id": "hanbit-notice",   "title": "한빛리빙 자동 갱신 해지 통보 시한",    "status": "미확인", "since": null, "docs": ["hanbit-contract"], "note": "요약본에 없다. 총무팀 원본 필요" }
+  ],
+
+  "entities_meta": {
+    "referenced_in_note": "referenced_in = 그 업체를 회사명 또는 품번 접두어로 가리키는 원본 수. _보관/ 사본과 BI html(카테고리 단위 집계라 공급사명이 없다)은 세지 않는다. 근거 개수가 곧 신뢰도 표시인 저장소라 기준을 고정해 둔다.",
+    "caution": "wiki/거래처/대성물산.md의 '원본 문서 전체 목록'은 15건인데 아래는 22건이다. 어긋난 게 아니라 기준이 다르다. 위키 표는 그 문서가 근거로 링크한 원본, 여기는 업체를 언급한 원본 전체다."
+  },
+  "entities": [
+    { "id": "대성물산",   "label": "대성물산(주)",     "code": "SUP-0031", "status": "거래 중", "contact": "박신영 과장", "sku_prefix": "DSM-", "referenced_in": 22, "wiki_linked_docs": 15, "wiki": "wiki/거래처/대성물산.md",   "note": "원자재 시세 연동 조항(제9조)이 있어 단가 변동이 잦다. 이 저장소 혼란의 주원인" },
+    { "id": "한빛리빙",   "label": "한빛리빙(주)",     "code": null,       "status": "거래 중", "contact": "최영훈 팀장", "sku_prefix": "HBL-", "referenced_in": 10, "wiki_linked_docs": 6,  "wiki": "wiki/거래처/한빛리빙.md",   "note": "가장 조용한 거래처. 충돌·중복·재고 불일치 없음. 다만 근거가 얇다. 단가·담당자·계약 조건이 전부 단일 출처다. referenced_in 10건 중 회사명을 직접 적은 것은 9건이고, 한빛리빙/단가표.csv는 품번 HBL-*로만 연결된다" },
+    { "id": "초록별상사", "label": "초록별상사",       "code": null,       "status": "신규 후보", "contact": "이수아 대표", "sku_prefix": null,  "referenced_in": 9,  "wiki_linked_docs": null, "wiki": "wiki/거래처/초록별상사.md", "note": "친환경 주방세제. 샘플 회신 대기에서 멈춤. 확정 단가표 없음" },
+    { "id": "그린테이블", "label": "그린테이블(GreenTable)", "code": null, "status": "신규 후보", "contact": "이하나 팀장", "sku_prefix": null,  "referenced_in": 1,  "wiki_linked_docs": 1,  "wiki": "wiki/거래처/그린테이블.md", "note": "대나무 도마·식기 제조사. 근거 PDF 1건뿐이고 접촉 이력 없음: 저장소의 다른 원본은 이 업체를 언급하지 않는다" },
+    { "id": "미래상사",   "label": "미래상사",         "code": null,       "status": "종료(2025)", "contact": null, "sku_prefix": null, "referenced_in": 1, "wiki_linked_docs": 1, "wiki": "wiki/거래처/과거거래처_2024.md", "note": "문구류. 기록이 예전_거래처_리스트.xlsx에만 있다" },
+    { "id": "뉴스타패키징","label": "뉴스타패키징",    "code": null,       "status": "종료(2024 하반기)", "contact": null, "sku_prefix": null, "referenced_in": 1, "wiki_linked_docs": 1, "wiki": "wiki/거래처/과거거래처_2024.md", "note": "포장재. 계약 만료 후 갱신 안 함" }
+  ],
+
+  "counts_summary": {
+    "documents_with_warning": 6,
+    "duplicates": 3,
+    "superseded_or_discarded": 5,
+    "open_items": 8,
+    "overdue_items": 1,
+    "future_dated_events": 3,
+    "value_conflicts_unresolved": 0,
+    "value_conflicts_resolved": 1,
+    "note": "documents_with_warning = documents[].warning=true 6건, future_dated_events = timeline[].future=true 3건. value_conflicts_unresolved = 0: 2026-10-07 원본 대조(/test)에서 위키와 원본 사이의 값 충돌은 발견되지 않았다. 해소된 충돌 1건은 반품 기간 7일 ↔ 10일.",
+    "verify": "이 블록과 category_counts는 documents/relations/timeline에서 다시 셀 수 있는 파생값이다. wiki/data/_verify.py로 재검산할 것: 값을 고치면 집계도 같이 어긋난다."
+  }
+}
